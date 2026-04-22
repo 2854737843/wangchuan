@@ -58,13 +58,7 @@ public class AuthController {
     }
 
     private boolean matches(String rawPassword, String savedHash) {
-        if (savedHash == null) {
-            return false;
-        }
-        if (savedHash.startsWith("{noop}")) {
-            return savedHash.substring(6).equals(rawPassword);
-        }
-        return passwordEncoder.matches(rawPassword, savedHash);
+        return savedHash != null && passwordEncoder.matches(rawPassword, savedHash);
     }
 
     public record LoginRequest(@NotBlank String username, @NotBlank String password) {

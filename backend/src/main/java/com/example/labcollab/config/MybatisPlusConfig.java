@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
 import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
+import com.example.labcollab.exception.BadRequestException;
 import com.example.labcollab.security.OrgContext;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.LongValue;
@@ -20,7 +21,10 @@ public class MybatisPlusConfig {
             @Override
             public Expression getTenantId() {
                 Long orgId = OrgContext.getOrgId();
-                return new LongValue(orgId == null ? -1L : orgId);
+                if (orgId == null) {
+                    throw new BadRequestException("Missing X-Org-Id");
+                }
+                return new LongValue(orgId);
             }
 
             @Override

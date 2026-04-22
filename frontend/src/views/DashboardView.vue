@@ -21,8 +21,8 @@ const memberForm = reactive({ username: '', role: 'STUDENT' })
 
 const loadOrgs = async () => {
   const { data } = await client.get('/api/orgs/mine')
-  orgs.value = data.data
-  if (!auth.orgId && orgs.value.length) auth.setOrgId(String(orgs.value[0].id))
+  orgs.value = data.data.map((org) => ({ ...org, id: String(org.id) }))
+  if (!auth.orgId && orgs.value.length) auth.setOrgId(orgs.value[0].id)
 }
 
 const loadMembers = async () => {
@@ -88,7 +88,7 @@ const refreshAll = async () => {
 }
 
 const onOrgChanged = async (value) => {
-  auth.setOrgId(String(value))
+  auth.setOrgId(value)
   selectedProject.value = ''
   selectedTopic.value = ''
   await refreshAll()
@@ -113,7 +113,7 @@ onMounted(async () => {
   <div class="dashboard">
     <el-space wrap>
       <el-select :model-value="auth.orgId" placeholder="选择课题组" @change="onOrgChanged">
-        <el-option v-for="org in orgs" :key="org.id" :label="`${org.name} (${org.role})`" :value="String(org.id)" />
+        <el-option v-for="org in orgs" :key="org.id" :label="`${org.name} (${org.role})`" :value="org.id" />
       </el-select>
       <el-button @click="refreshAll">刷新</el-button>
       <el-button type="danger" plain @click="logout">退出</el-button>

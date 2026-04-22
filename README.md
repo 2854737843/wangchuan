@@ -25,9 +25,12 @@ cd backend
 mvn spring-boot:run
 ```
 
-Flyway 会自动建表并初始化测试用户：
-- 用户名：`admin`
-- 密码：`123456`
+Flyway 会自动建表。首次使用请先自行插入用户（密码使用 BCrypt），例如：
+```sql
+INSERT INTO sys_user(username, password_hash, enabled)
+VALUES ('admin', '$2b$12$CJmFKzWJAOb9QL24PeX2FecTSzCUy6EFmsz7YSzY7PVRv0sSOZy5S', 1);
+```
+对应示例密码为：`123456`
 
 Swagger 地址：`http://localhost:8080/swagger-ui.html`
 
