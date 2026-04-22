@@ -63,5 +63,3 @@ CREATE TABLE IF NOT EXISTS task (
     CONSTRAINT fk_task_topic FOREIGN KEY (topic_id) REFERENCES topic(id) ON DELETE CASCADE
 );
 
-INSERT IGNORE INTO sys_user (id, username, password_hash, enabled)
-VALUES (1, 'admin', '{noop}123456', 1);

@@ -3,6 +3,7 @@ package com.example.labcollab.security;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.example.labcollab.entity.OrgMember;
 import com.example.labcollab.exception.ForbiddenException;
+import com.example.labcollab.exception.OrgIdMismatchException;
 import com.example.labcollab.mapper.OrgMemberMapper;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +19,7 @@ public class OrgAuth {
     public void assertOrgIdMatchPath(Long pathOrgId) {
         Long orgId = OrgContext.getOrgId();
         if (orgId == null || !orgId.equals(pathOrgId)) {
-            throw new RuntimeException("X-Org-Id mismatch with path orgId");
+            throw new OrgIdMismatchException();
         }
     }
 

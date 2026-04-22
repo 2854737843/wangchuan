@@ -1,6 +1,7 @@
 package com.example.labcollab;
 
 import com.example.labcollab.exception.GlobalExceptionHandler;
+import com.example.labcollab.exception.OrgIdMismatchException;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -28,7 +29,7 @@ class GlobalExceptionHandlerTest {
     static class DummyController {
         @GetMapping("/test")
         public String test() {
-            throw new RuntimeException("X-Org-Id mismatch with path orgId");
+            throw new OrgIdMismatchException();
         }
     }
 }
